@@ -41,3 +41,16 @@ pub fn[O] Parser::new(f : (State) -> Result[(O, State), ParseError]) -> Parser[O
 pub fn[O] Parser::parse(self : Parser[O], state : State) -> Result[(O, State), ParseError] {
   (self.f)(state)
 }
+
+pub fn[O] Parser::pure(val : O) -> Parser[O] {
+  Parser::new(fn(state) {
+    Ok((val, state))
+  })
+}
+
+pub fn[O] Parser::fail(detail : ErrorDetail) -> Parser[O] {
+  Parser::new(fn(state) {
+    let pos = Position::{ line: state.line, col: state.col, offset: state.offset }
+    Err(ParseError::{ pos, detail })
+  })
+}
