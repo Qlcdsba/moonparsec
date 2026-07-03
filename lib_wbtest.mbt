@@ -110,7 +110,7 @@ test "parser int" {
   inspect(p.parse(s3), content="Ok((89, State(offset=3, line=1, col=4)))")
   
   let s4 = State::{ input: "abc", offset: 0, line: 1, col: 1 }
-  inspect(p.parse(s4), content="Err(ParseError(pos=Position(line=1, col=1, offset=0), detail=DigitExpected))")
+  inspect(p.parse(s4), content="Err(ParseError(pos=Position(line=1, col=1, offset=0), detail=IntExpected))")
 }
 
 test "parser float" {

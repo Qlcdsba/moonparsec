@@ -5,7 +5,26 @@ pub fn digit() -> Parser[Char] {
 }
 
 pub fn alpha() -> Parser[Char] {
-  satisfy(fn(c) { (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') })
+  Parser::new(fn(state) {
+    if state.offset < state.input.length() {
+      let c = get_char(state.input, state.offset)
+      if (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') {
+        let next_s = State::{
+          input: state.input,
+          offset: state.offset + 1,
+          line: if c == '\n' { state.line + 1 } else { state.line },
+          col: if c == '\n' { 1 } else { state.col + 1 }
+        }
+        Ok((c, next_s))
+      } else {
+        let pos = Position::{ line: state.line, col: state.col, offset: state.offset }
+        Err(ParseError::{ pos, detail: AlphaExpected })
+      }
+    } else {
+      let pos = Position::{ line: state.line, col: state.col, offset: state.offset }
+      Err(ParseError::{ pos, detail: EOF })
+    }
+  })
 }
 
 pub fn bool() -> Parser[Bool] {
@@ -33,7 +52,7 @@ pub fn int() -> Parser[Int] {
     
     if current_offset >= state.input.length() {
       let pos = Position::{ line: state.line, col: state.col, offset: state.offset }
-      return Err(ParseError::{ pos, detail: DigitExpected })
+      return Err(ParseError::{ pos, detail: IntExpected })
     }
     
     let mut val = 0
@@ -52,7 +71,7 @@ pub fn int() -> Parser[Int] {
     
     if !has_digits {
       let pos = Position::{ line: state.line, col: state.col, offset: state.offset }
-      return Err(ParseError::{ pos, detail: DigitExpected })
+      return Err(ParseError::{ pos, detail: IntExpected })
     }
     
     let final_val = if is_neg { -val } else { val }
