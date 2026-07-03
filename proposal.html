@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>开源创新大赛项目申报书 - moonparsec</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+    
+    @page {
+      size: A4;
+      margin: 0;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      width: 210mm;
+      height: 297mm;
+      box-sizing: border-box;
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: linear-gradient(135deg, #0b0f19 0%, #151828 100%);
+      color: #f8fafc;
+      padding: 12mm 16mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    
+    /* Elegant grid backdrop */
+    .grid-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: linear-gradient(rgba(99, 102, 241, 0.04) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(99, 102, 241, 0.04) 1px, transparent 1px);
+      background-size: 16px 16px;
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    .container {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    
+    /* Header section */
+    header {
+      border-bottom: 2px solid rgba(99, 102, 241, 0.2);
+      padding-bottom: 4mm;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    
+    .logo-area h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      background: linear-gradient(90deg, #6366f1 0%, #a855f7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .logo-area p {
+      margin: 1mm 0 0 0;
+      font-size: 12px;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+    
+    .meta-area {
+      text-align: right;
+      font-size: 10.5px;
+      color: #a5b4fc;
+      line-height: 1.5;
+    }
+    
+    /* Content blocks */
+    .section-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 5mm;
+      margin-top: 5mm;
+      flex-grow: 1;
+    }
+    
+    .left-col, .right-col {
+      display: flex;
+      flex-direction: column;
+      gap: 5mm;
+    }
+    
+    .card {
+      background: rgba(22, 28, 45, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 8px;
+      padding: 4mm 4.5mm;
+      backdrop-filter: blur(10px);
+    }
+    
+    .card-title {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #818cf8;
+      margin-bottom: 2mm;
+      border-left: 3px solid #6366f1;
+      padding-left: 2mm;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    p.desc {
+      font-size: 11px;
+      line-height: 1.45;
+      color: #cbd5e1;
+      margin: 0;
+    }
+    
+    /* Feature lists */
+    .feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.8mm;
+    }
+    
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 2mm;
+    }
+    
+    .feature-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #a855f7;
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+    
+    .feature-text {
+      font-size: 10.5px;
+      line-height: 1.4;
+      color: #cbd5e1;
+    }
+    
+    .feature-text strong {
+      color: #f8fafc;
+    }
+    
+    /* Code block container */
+    pre {
+      background: #090c15;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      padding: 3mm 4mm;
+      margin: 0;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 9.5px;
+      color: #e2e8f0;
+      overflow: hidden;
+      line-height: 1.35;
+    }
+    
+    .keyword { color: #f43f5e; }
+    .type { color: #38bdf8; }
+    .string { color: #10b981; }
+    .comment { color: #64748b; }
+    
+    /* Table / Stats block */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5mm;
+    }
+    
+    .stat-box {
+      background: rgba(9, 12, 21, 0.4);
+      border: 1px solid rgba(99, 102, 241, 0.15);
+      border-radius: 6px;
+      padding: 2mm;
+      text-align: center;
+    }
+    
+    .stat-val {
+      font-size: 16px;
+      font-weight: 700;
+      color: #a855f7;
+    }
+    
+    .stat-lbl {
+      font-size: 8.5px;
+      color: #94a3b8;
+      margin-top: 1px;
+    }
+    
+    /* Footer area */
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 3mm;
+      margin-top: 5mm;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 9.5px;
+      color: #64748b;
+    }
+    
+    .footer-links a {
+      color: #818cf8;
+      text-decoration: none;
+      margin-left: 4mm;
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-bg"></div>
+  <div class="container">
+    <header>
+      <div class="logo-area">
+        <h1>moonparsec</h1>
+        <p>基于 MoonBit 语言的轻量级高可靠 Parser Combinator 解析函数库</p>
+      </div>
+      <div class="meta-area">
+        <div><strong>申报赛事:</strong> 2026 软件开源创新大赛 (OSC2026)</div>
+        <div><strong>选题方向:</strong> Track 1 开源基础软件开发</div>
+        <div><strong>项目标识:</strong> moonparsec</div>
+      </div>
+    </header>
+    
+    <div class="section-grid">
+      <div class="left-col">
+        <div class="card">
+          <div class="card-title">项目概述</div>
+          <p class="desc">
+            <code>moonparsec</code> 是专为 MoonBit 语言原生设计的高性能、零拷贝、类型安全的解析器组合子 (Parser Combinator) 框架。该项目填补了 MoonBit 生态中声明式词法解析框架的空白，允许开发者以构建“乐高积木”的形式，自由组装小型解析单元，轻松应对针对复杂文本协议（如 JSON, CSV, YAML 或自定义 DSL）的高可靠解析。
+          </p>
+        </div>
+        
+        <div class="card">
+          <div class="card-title">核心特色与技术优势</div>
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-dot"></div>
+              <div class="feature-text"><strong>零拷贝性能表现</strong>：通过指针偏移量 (Offset) 和字符串视图流式匹配，完全避免了解析过程中的中间临时分配，提高 GC 效率。</div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-dot"></div>
+              <div class="feature-text"><strong>精准的 Span 追踪</strong>：行/列号 (Line/Column) 及物理偏移自动递增，配合 <code>span()</code> 组合子，可精确保存 AST 语法节点的物理起止范围。</div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-dot"></div>
+              <div class="feature-text"><strong>编译器级智能报错</strong>：独创 <code>ParseError::format</code>，可在出错时提取代码所在行的上下文，输出形如 <code>^ -- Expected digit</code> 的视觉诊断，利于友好纠错。</div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-dot"></div>
+              <div class="feature-text"><strong>无警告纯正适配</strong>：完美融入 MoonBit 最新的泛型参数约束、无副作用 try-catch 控制流，在严格的代码检查中保持 100% 编译通过且无任何警告。</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-title">测试与验证成果</div>
+          <p class="desc" style="margin-bottom: 2mm;">
+            项目坚持测试驱动开发（TDD），构建了白盒单体测试集。对多分支回溯回滚、换行统计、浮点数复杂指数匹配等进行了深入压测。
+          </p>
+          <div class="stats-grid">
+            <div class="stat-box">
+              <div class="stat-val">20 / 20</div>
+              <div class="stat-lbl">白盒测试通过</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-val">100%</div>
+              <div class="stat-lbl">核心代码覆盖率</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-val">0</div>
+              <div class="stat-lbl">编译警告/错误</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="right-col">
+        <div class="card">
+          <div class="card-title">坐标解析器编写示例</div>
+          <pre>
+<span class="comment">// 将 "(12, -34)" 解析为 (Int, Int)</span>
+<span class="keyword">fn</span> parse_coordinate() -> <span class="type">Parser</span>[(<span class="type">Int</span>, <span class="type">Int</span>)] {
+  <span class="keyword">let</span> comma = char(<span class="string">','</span>)
+  <span class="keyword">let</span> num = int()
+  char(<span class="string">'('</span>).preceded(
+    num.terminated(comma).and_then(<span class="keyword">fn</span>(x) {
+      num.terminated(char(<span class="string">')'</span>)).map(<span class="keyword">fn</span>(y) {
+        (x, y)
+      })
+    })
+  )
+}
+          </pre>
+        </div>
+        
+        <div class="card">
+          <div class="card-title">典型落地应用场景</div>
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-dot"></div>
+              <div class="feature-text"><strong>RFC 4180 兼容的 CSV 解析器</strong>：已基于本库实现，稳定应对包含引号转义 <code>""</code> 以及嵌入逗号/新行的高复杂度表格数据。</div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-dot"></div>
+              <div class="feature-text"><strong>支持嵌套递归的 JSON 解析器</strong>：支持 <code>Null</code>, <code>Bool</code>, <code>Number</code>, <code>String</code> 以及多级嵌套列表和 Object，树状 AST 输出直观精巧。</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-title">未来规划</div>
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-dot"></div>
+              <div class="feature-text"><strong>Wasm 底层融合</strong>：适配 Wasm-GC 底层的多语言原生类型映射，使字符串转换效率实现跃升。</div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-dot"></div>
+              <div class="feature-text"><strong>标准扩展生态</strong>：计划发布对 YAML 及 TOML 语言的支持插件，成为 MoonBit 全场景解析基石。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <footer>
+      <div>申报人账号: Qlcdsba (3316343050@qq.com)</div>
+      <div class="footer-links">
+        <span>代码仓库:</span>
+        <a href="https://github.com/Qlcdsba/moonparsec" target="_blank">GitHub</a>
+        <a href="https://gitlink.org.cn/Qlcdsba/moonparsec" target="_blank">GitLink</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
