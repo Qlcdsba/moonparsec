@@ -85,3 +85,42 @@ test "parser many1" {
   let s2 = State::{ input: "bb", offset: 0, line: 1, col: 1 }
   inspect(p.parse(s2), content="Err(ParseError(pos=Position(line=1, col=1, offset=0), detail=CharExpected('a')))")
 }
+
+test "parser bool" {
+  let p = bool()
+  let s1 = State::{ input: "true", offset: 0, line: 1, col: 1 }
+  inspect(p.parse(s1), content="Ok((true, State(offset=4, line=1, col=5)))")
+  
+  let s2 = State::{ input: "false", offset: 0, line: 1, col: 1 }
+  inspect(p.parse(s2), content="Ok((false, State(offset=5, line=1, col=6)))")
+  
+  let s3 = State::{ input: "flase", offset: 0, line: 1, col: 1 }
+  inspect(p.parse(s3), content="Err(ParseError(pos=Position(line=1, col=1, offset=0), detail=TagExpected(\"false\")))")
+}
+
+test "parser int" {
+  let p = int()
+  let s1 = State::{ input: "1234", offset: 0, line: 1, col: 1 }
+  inspect(p.parse(s1), content="Ok((1234, State(offset=4, line=1, col=5)))")
+  
+  let s2 = State::{ input: "-567", offset: 0, line: 1, col: 1 }
+  inspect(p.parse(s2), content="Ok((-567, State(offset=4, line=1, col=5)))")
+  
+  let s3 = State::{ input: "+89", offset: 0, line: 1, col: 1 }
+  inspect(p.parse(s3), content="Ok((89, State(offset=3, line=1, col=4)))")
+  
+  let s4 = State::{ input: "abc", offset: 0, line: 1, col: 1 }
+  inspect(p.parse(s4), content="Err(ParseError(pos=Position(line=1, col=1, offset=0), detail=DigitExpected))")
+}
+
+test "parser float" {
+  let p = float()
+  let s1 = State::{ input: "123.45", offset: 0, line: 1, col: 1 }
+  inspect(p.parse(s1), content="Ok((123.45, State(offset=6, line=1, col=7)))")
+  
+  let s2 = State::{ input: "-0.012", offset: 0, line: 1, col: 1 }
+  inspect(p.parse(s2), content="Ok((-0.012, State(offset=6, line=1, col=7)))")
+  
+  let s3 = State::{ input: "1e-5", offset: 0, line: 1, col: 1 }
+  inspect(p.parse(s3), content="Ok((0.00001, State(offset=4, line=1, col=5)))")
+}
