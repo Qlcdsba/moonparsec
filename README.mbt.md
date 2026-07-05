@@ -1,8 +1,8 @@
-# moonparsec
+# moonwat
 
 A high-performance, type-safe, and zero-dependency **Parser Combinator Library** for MoonBit.
 
-`moonparsec` enables developers to build robust, type-safe parsers for complex text formats (e.g., JSON, CSV, configuration languages, or DSLs) by combining small, easily testable parser primitives.
+`moonwat` enables developers to build robust, type-safe parsers for complex text formats (e.g., JSON, CSV, configuration languages, or DSLs) by combining small, easily testable parser primitives.
 
 ---
 
@@ -128,7 +128,7 @@ pub struct Parser[O] {
 
 ## Diagnostic Error Reporting
 
-`moonparsec` provides compiler-grade error reporting out of the box. Using `ParseError::format(self, input)` yields formatted diagnostic errors:
+`moonwat` provides compiler-grade error reporting out of the box. Using `ParseError::format(self, input)` yields formatted diagnostic errors:
 
 ```
 Parse error at line 1, col 5:

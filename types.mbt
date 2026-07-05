@@ -1,4 +1,4 @@
-// Core types for moonparsec
+// Core types for moonwat
 
 pub struct Position {
   line : Int
